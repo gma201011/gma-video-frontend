@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/home';
+import Login from './pages/login';
+import Channel from './pages/channel';
+import Like from './pages/like';
+import Subscription from './pages/subscription';
+import Upload from './pages/upload';
+import Yoursvid from './pages/yoursvid';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/channel' element={<Channel />} />
+          <Route path='/like' element={<Like />} />
+          <Route path='/subscription' element={<Subscription />} />
+          <Route path='/upload' element={<Upload />} />
+          <Route path='/yoursvid' element={<Yoursvid />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
