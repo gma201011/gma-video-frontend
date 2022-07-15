@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -9,23 +10,40 @@ import Subscription from './pages/Subscription';
 import Upload from './pages/Upload';
 import Yoursvid from './pages/Yoursvid';
 import VideoPlay from './pages/VideoPlay';
+import { AuthContext } from './contexts';
+import { auth } from './webApi';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth(token).then((res) => {
+        if (res.status === 200) {
+          setUser(res.data.userInfo);
+        }
+      });
+    }
+  }, []);
+
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/video/:videoId' element={<VideoPlay />} />
-          <Route path='/channel' element={<Channel />} />
-          <Route path='/like' element={<Like />} />
-          <Route path='/subscription' element={<Subscription />} />
-          <Route path='/upload' element={<Upload />} />
-          <Route path='/yoursvid' element={<Yoursvid />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthContext.Provider value={{ user, setUser }}>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/video/:videoId' element={<VideoPlay />} />
+            <Route path='/channel' element={<Channel />} />
+            <Route path='/like' element={<Like />} />
+            <Route path='/subscription' element={<Subscription />} />
+            <Route path='/upload' element={<Upload />} />
+            <Route path='/yoursvid' element={<Yoursvid />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthContext.Provider>
     </>
   );
 }

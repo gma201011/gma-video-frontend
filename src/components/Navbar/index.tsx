@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,16 +9,21 @@ import Button from '@mui/material/Button';
 import NavList from './NavList';
 import styled from 'styled-components';
 import { NoStyleLink } from '../StyleLink/NoStyleLink';
+import { AuthContext } from '../../contexts';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export default function Navbar() {
-  const [state, setState] = React.useState({
+  const { user, setUser } = useContext(AuthContext);
+  const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const TitleLink = styled(NoStyleLink)`
     color: white;
@@ -50,6 +55,14 @@ export default function Navbar() {
     </Box>
   );
 
+  const handleLogout = () => {
+    localStorage.setItem('token', '');
+    setUser(null);
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position='static'>
@@ -75,7 +88,16 @@ export default function Navbar() {
           >
             <TitleLink to='/'>gma-video</TitleLink>
           </Typography>
-          <Button color='inherit'>Login</Button>
+          {!user && (
+            <Button color='inherit'>
+              <TitleLink to='/login'>Sign in</TitleLink>
+            </Button>
+          )}
+          {user && (
+            <Button onClick={handleLogout} color='inherit'>
+              Sign out
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
