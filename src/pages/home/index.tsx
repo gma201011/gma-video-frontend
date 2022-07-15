@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import VideoCard from '../../components/VideoCard';
 import { getVideoCardInfo } from '../../webApi';
+import { NoStyleLink } from '../../components/StyleLink/NoStyleLink';
 import styled from 'styled-components';
 
 export default function HomePage() {
@@ -15,9 +16,8 @@ export default function HomePage() {
 
   const Wrapper = styled.div`
     max-width: 1440px;
-    padding: 20px 0px;
-    margin: 20px 0px;
     display: flex;
+    margin-bottom: 50px;
     flex-wrap: wrap;
     justify-content: space-around;
   `;
@@ -26,17 +26,24 @@ export default function HomePage() {
     if (info) {
       return info?.map((item: any) => {
         return (
-          <VideoCard
-            key={item._id}
-            videoCover={item.coverURL}
-            videoTitle={item.title}
-            userAvatar={item.user.username[0]}
-            userName={item.user.username}
-            createTime={item.createAt}
-          />
+          <NoStyleLink to={`/video/${item._id}`}>
+            <VideoCard
+              key={item._id}
+              videoCover={item.coverURL}
+              videoTitle={item.title}
+              userAvatar={item.user.username[0]}
+              userName={item.user.username}
+              createTime={item.createAt}
+            />
+          </NoStyleLink>
         );
       });
     }
   }
-  return <Wrapper>{handleVideoCardRender(videoInfo)}</Wrapper>;
+  return (
+    <>
+      <h2 style={{ marginLeft: '30px' }}>Home</h2>
+      <Wrapper>{handleVideoCardRender(videoInfo)}</Wrapper>
+    </>
+  );
 }

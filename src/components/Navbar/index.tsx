@@ -7,6 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import NavList from './NavList';
+import styled from 'styled-components';
+import { NoStyleLink } from '../StyleLink/NoStyleLink';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
@@ -17,6 +19,11 @@ export default function Navbar() {
     bottom: false,
     right: false,
   });
+
+  const TitleLink = styled(NoStyleLink)`
+    color: white;
+    display: block;
+  `;
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -66,7 +73,7 @@ export default function Navbar() {
             component='div'
             sx={{ flexGrow: 1 }}
           >
-            gma-video
+            <TitleLink to='/'>gma-video</TitleLink>
           </Typography>
           <Button color='inherit'>Login</Button>
         </Toolbar>

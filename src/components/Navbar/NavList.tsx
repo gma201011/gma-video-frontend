@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NoStyleLink } from '../StyleLink/NoStyleLink';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -11,31 +11,18 @@ import SlideshowIcon from '@mui/icons-material/Slideshow';
 import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Divider from '@mui/material/Divider';
-import styled from 'styled-components';
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: black;
-  &:focus,
-  &:hover,
-  &:visited,
-  &:link,
-  &:active {
-    text-decoration: none;
-  }
-`;
 
 export default function NavList() {
   function handleNavItem(path: string, icon: any, show: string) {
     return (
-      <StyledLink to={path}>
+      <NoStyleLink to={path}>
         <ListItem style={{ marginTop: '5px' }} disablePadding>
           <ListItemButton>
             <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={show} />
           </ListItemButton>
         </ListItem>
-      </StyledLink>
+      </NoStyleLink>
     );
   }
   return (

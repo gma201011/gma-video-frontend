@@ -8,6 +8,7 @@ import Like from './pages/Like';
 import Subscription from './pages/Subscription';
 import Upload from './pages/Upload';
 import Yoursvid from './pages/Yoursvid';
+import VideoPlay from './pages/VideoPlay';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/video/:videoId' element={<VideoPlay />} />
           <Route path='/channel' element={<Channel />} />
           <Route path='/like' element={<Like />} />
           <Route path='/subscription' element={<Subscription />} />
