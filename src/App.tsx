@@ -1,13 +1,13 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/home';
-import Login from './pages/login';
-import Channel from './pages/channel';
-import Like from './pages/like';
-import Subscription from './pages/subscription';
-import Upload from './pages/upload';
-import Yoursvid from './pages/yoursvid';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Channel from './pages/Channel';
+import Like from './pages/Like';
+import Subscription from './pages/Subscription';
+import Upload from './pages/Upload';
+import Yoursvid from './pages/Yoursvid';
 
 function App() {
   return (
