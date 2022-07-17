@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../contexts';
 import Avatar from '@mui/material/Avatar';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import CircularProgress from '@mui/material/CircularProgress';
 import { red } from '@mui/material/colors';
 import Player from 'aliplayer-react';
 import { useLocation } from 'react-router-dom';
-import { getVideoPlayInfo } from '../../webApi';
+import { getVideoPlayInfo, getVideoOperateStatus } from '../../webApi';
 import styled from 'styled-components';
+import LikeButtons from './LikeButtons';
+import Save from './Save';
+import Subscribe from './Subscribe';
 
 const StyledTitle = styled.h1`
   margin-left: 10px;
@@ -35,12 +36,8 @@ const RightWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const IconButton = styled(Button)`
-  verticalAlign: 'bottom',
-  marginRight: '5px'
-`;
-
 export default function VideoPlay() {
+  const { user } = useContext(AuthContext);
   const [info, setInfo] = useState<any>('');
   const [config, setConfig] = useState<any>({
     height: '80vh',
@@ -50,6 +47,8 @@ export default function VideoPlay() {
     useH5Prism: true,
     preload: true,
   });
+  const [operation, setOperation] = useState<any>(null);
+
   const location = useLocation();
   const videoId = location.pathname.slice(7);
 
@@ -59,6 +58,14 @@ export default function VideoPlay() {
       setConfig({ ...config, source: res.playURL });
     });
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getVideoOperateStatus(videoId).then((res: any) => {
+        setOperation(res);
+      });
+    }
+  }, [user]);
 
   const handlePlayer = (config: any) => {
     if (config?.source) {
@@ -70,11 +77,9 @@ export default function VideoPlay() {
     }
   };
 
-  console.log(info);
-
   return (
     <>
-      {config?.source && (
+      {config?.source && info ? (
         <>
           {handlePlayer(config)}
           <StyledTitle>{info?.title}</StyledTitle>
@@ -97,32 +102,12 @@ export default function VideoPlay() {
                   }
                 />
               </div>
-              <div style={{ display: 'flex' }}>
-                <Typography
-                  style={{ margin: 'auto 0' }}
-                  variant='body1'
-                  color='text.secondary'
-                >
-                  <Button style={{ color: 'gray' }}>
-                    <ThumbUpIcon
-                      style={{ verticalAlign: 'bottom', marginRight: '5px' }}
-                    />
-                    {info?.likeCount}
-                  </Button>
-                </Typography>
-                <Typography
-                  style={{ margin: 'auto 0' }}
-                  variant='body1'
-                  color='text.secondary'
-                >
-                  <Button style={{ color: 'gray' }}>
-                    <ThumbDownIcon
-                      style={{ verticalAlign: 'bottom', marginRight: '5px' }}
-                    />
-                    {info?.dislikeCount}
-                  </Button>
-                </Typography>
-              </div>
+              <LikeButtons
+                likeStatus={operation?.like}
+                user={user}
+                likeCount={+info?.likeCount}
+                dislikeCount={+info?.dislikeCount}
+              />
             </LeftWrapper>
             <RightWrapper
               style={{
@@ -132,22 +117,13 @@ export default function VideoPlay() {
                 justifyContent: 'space-between',
               }}
             >
-              <Typography
-                style={{ margin: 'auto 0' }}
-                variant='body1'
-                color='text.secondary'
-              >
-                <Button style={{ color: 'gray', marginRight: '20px' }}>
-                  <LibraryAddIcon style={{ verticalAlign: 'bottom' }} />
-                  save
-                </Button>
-              </Typography>
-              <Button variant='contained' color='error'>
-                Subscribe
-              </Button>
+              <Save />
+              <Subscribe />
             </RightWrapper>
           </OperatorWrappr>
         </>
+      ) : (
+        <CircularProgress style={{ display: 'block', margin: '20px auto' }} />
       )}
     </>
   );

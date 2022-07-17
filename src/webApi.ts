@@ -76,3 +76,39 @@ export const auth = async (token: string) => {
     }
   }).then((response) => response)
 }
+
+export const getVideoOperateStatus = async (videoId: string) => {
+  const token = localStorage.getItem('token');
+  return await axios.get(`${BASE_URL}/video/videoOperation/${videoId}`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).then((response) => response.data.videoOperate).catch((error) => error);
+}
+
+export const videoLike = async (videoId: string) => {
+  const token = localStorage.getItem('token');
+  return await axios.get(`${BASE_URL}/video/like/${videoId}`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).catch((error) => error);
+}
+
+export const videoDislike = async (videoId: string) => {
+  const token = localStorage.getItem('token');
+  return await axios.get(`${BASE_URL}/video/dislike/${videoId}`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).catch((error) => error);
+}
+
+export const videoSave = async (videoId: string) => {
+  const token = localStorage.getItem('token');
+  return await axios.get(`${BASE_URL}/video/dislike/${videoId}`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).then(res => res).catch((error) => error);
+}

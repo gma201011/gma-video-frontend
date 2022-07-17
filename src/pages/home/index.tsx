@@ -13,6 +13,12 @@ const Wrapper = styled.div`
   justify-content: space-around;
 `;
 
+const CardTemplate = styled.div`
+  width: 360px;
+  height: 305px;
+  margin-top: 25px;
+`;
+
 export default function HomePage() {
   const [videoInfo, setVideoInfo] = useState<any>('');
 
@@ -24,29 +30,46 @@ export default function HomePage() {
   }, [videoInfo]);
 
   function handleVideoCardRender(info: any) {
-    if (info) {
-      return info?.map((item: any) => {
-        return (
-          <NoStyleLink to={`/video/${item._id}`}>
-            <VideoCard
-              videoCover={item.coverURL}
-              videoTitle={item.title}
-              userAvatar={item.user.username[0]}
-              userName={item.user.username}
-              createTime={item.createAt}
-            />
-          </NoStyleLink>
-        );
-      });
+    return info?.map((item: any, index: any) => {
+      console.log(index, item);
+      return (
+        <NoStyleLink to={`/video/${item._id}`}>
+          <VideoCard
+            videoCover={item.coverURL}
+            videoTitle={item.title}
+            userAvatar={item.user.username[0]}
+            userName={item.user.username}
+            createTime={item.createAt}
+          />
+        </NoStyleLink>
+      );
+    });
+  }
+
+  function handleCardTemplateRender(info: any) {
+    if (info.length % 3 === 1) {
+      console.log(2);
+      return (
+        <>
+          <CardTemplate /> <CardTemplate />
+        </>
+      );
+    } else if (info.length % 3 === 2) {
+      console.log(1);
+      return <CardTemplate />;
     }
   }
+
   return (
     <>
       <h2 style={{ marginLeft: '30px' }}>Home</h2>
       {!videoInfo ? (
         <CircularProgress style={{ display: 'block', margin: 'auto' }} />
       ) : (
-        <Wrapper>{handleVideoCardRender(videoInfo)}</Wrapper>
+        <Wrapper>
+          {handleVideoCardRender(videoInfo)}
+          {handleCardTemplateRender(videoInfo)}
+        </Wrapper>
       )}
     </>
   );
