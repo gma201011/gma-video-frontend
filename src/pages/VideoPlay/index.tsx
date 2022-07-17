@@ -117,7 +117,7 @@ export default function VideoPlay() {
                 justifyContent: 'space-between',
               }}
             >
-              <Save />
+              <Save saveStatus={operation?.save} />
               <Subscribe />
             </RightWrapper>
           </OperatorWrappr>

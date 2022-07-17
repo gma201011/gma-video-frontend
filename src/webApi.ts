@@ -106,6 +106,15 @@ export const videoDislike = async (videoId: string) => {
 
 export const videoSave = async (videoId: string) => {
   const token = localStorage.getItem('token');
+  return await axios.get(`${BASE_URL}/video/collect/${videoId}`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).then(res => res).catch((error) => error);
+}
+
+export const videoUnsave = async (videoId: string) => {
+  const token = localStorage.getItem('token');
   return await axios.get(`${BASE_URL}/video/dislike/${videoId}`, {
     headers: {
       'authorization': `Bearer ${token}`
