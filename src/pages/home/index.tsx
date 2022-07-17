@@ -3,24 +3,25 @@ import VideoCard from '../../components/VideoCard';
 import { getVideoCardInfo } from '../../webApi';
 import { NoStyleLink } from '../../components/StyleLink/NoStyleLink';
 import styled from 'styled-components';
+import CircularProgress from '@mui/material/CircularProgress';
+
+const Wrapper = styled.div`
+  max-width: 1440px;
+  display: flex;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+`;
 
 export default function HomePage() {
   const [videoInfo, setVideoInfo] = useState<any>('');
 
   useEffect(() => {
+    if (videoInfo) return;
     getVideoCardInfo().then((data: any) => {
       setVideoInfo(data);
-      return data;
     });
-  }, []);
-
-  const Wrapper = styled.div`
-    max-width: 1440px;
-    display: flex;
-    margin-bottom: 50px;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  `;
+  }, [videoInfo]);
 
   function handleVideoCardRender(info: any) {
     if (info) {
@@ -28,7 +29,6 @@ export default function HomePage() {
         return (
           <NoStyleLink to={`/video/${item._id}`}>
             <VideoCard
-              key={item._id}
               videoCover={item.coverURL}
               videoTitle={item.title}
               userAvatar={item.user.username[0]}
@@ -43,7 +43,11 @@ export default function HomePage() {
   return (
     <>
       <h2 style={{ marginLeft: '30px' }}>Home</h2>
-      <Wrapper>{handleVideoCardRender(videoInfo)}</Wrapper>
+      {!videoInfo ? (
+        <CircularProgress style={{ display: 'block', margin: 'auto' }} />
+      ) : (
+        <Wrapper>{handleVideoCardRender(videoInfo)}</Wrapper>
+      )}
     </>
   );
 }

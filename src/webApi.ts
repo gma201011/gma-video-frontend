@@ -47,6 +47,21 @@ export const getVideoCardInfo = async () => {
   return infoList;
 }
 
+export const getVideoPlayInfo = async (videoId: string) => {
+  const link = await axios
+    .get(`${BASE_URL}/video/getvideolink/${videoId}`)
+    .then((res: any) => {return res.data.response.PlayInfoList.PlayInfo[0].PlayURL})
+    .catch((error) => console.log(error));
+
+  const videoInfo = await axios
+    .get(`${BASE_URL}/video/video/${videoId}`)
+    .then((res: any) => res.data)
+    .catch((error) => console.log(error));
+
+  videoInfo.playURL = link;
+  return videoInfo;
+}
+
 export const login = async (email: any, password: any) => {
   return await axios.post(`${BASE_URL}/user/logins`, {
     email, password

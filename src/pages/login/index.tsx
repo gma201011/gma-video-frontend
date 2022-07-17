@@ -42,7 +42,7 @@ export default function LoginPage() {
       const token = res.token;
       localStorage.setItem('token', token);
       setUser(res);
-      navigate('/');
+      navigate(-1);
     });
   };
   return (

@@ -14,6 +14,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
+const TitleLink = styled(NoStyleLink)`
+  color: white;
+  display: block;
+`;
+
 export default function Navbar() {
   const { user, setUser } = useContext(AuthContext);
   const [state, setState] = useState({
@@ -24,11 +29,6 @@ export default function Navbar() {
   });
   const navigate = useNavigate();
   const location = useLocation();
-
-  const TitleLink = styled(NoStyleLink)`
-    color: white;
-    display: block;
-  `;
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
