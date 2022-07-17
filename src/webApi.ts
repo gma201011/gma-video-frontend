@@ -113,9 +113,18 @@ export const videoSave = async (videoId: string) => {
   }).then(res => res).catch((error) => error);
 }
 
-export const videoUnsave = async (videoId: string) => {
+export const subscribe = async (channelId: string) => {
   const token = localStorage.getItem('token');
-  return await axios.get(`${BASE_URL}/video/dislike/${videoId}`, {
+  return await axios.get(`${BASE_URL}/user/subscribe/${channelId}`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).then(res => res).catch((error) => error);
+}
+
+export const unsubscribe = async (channelId: string) => {
+  const token = localStorage.getItem('token');
+  return await axios.get(`${BASE_URL}/user/unsubscribe/${channelId}`, {
     headers: {
       'authorization': `Bearer ${token}`
     }

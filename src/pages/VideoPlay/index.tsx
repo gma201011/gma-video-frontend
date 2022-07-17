@@ -79,7 +79,7 @@ export default function VideoPlay() {
 
   return (
     <>
-      {config?.source && info ? (
+      {config?.source && info && operation ? (
         <>
           {handlePlayer(config)}
           <StyledTitle>{info?.title}</StyledTitle>
@@ -118,7 +118,11 @@ export default function VideoPlay() {
               }}
             >
               <Save saveStatus={operation?.save} />
-              <Subscribe />
+              <Subscribe
+                initStatus={operation?.subscribe}
+                channelId={info?.user._id}
+                user={user}
+              />
             </RightWrapper>
           </OperatorWrappr>
         </>
