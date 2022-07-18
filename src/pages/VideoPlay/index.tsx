@@ -5,6 +5,7 @@ import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import { red } from '@mui/material/colors';
+import Divider from '@mui/material/Divider';
 import Player from 'aliplayer-react';
 import { useLocation } from 'react-router-dom';
 import { getVideoPlayInfo, getVideoOperateStatus } from '../../webApi';
@@ -12,6 +13,7 @@ import styled from 'styled-components';
 import LikeButtons from './LikeButtons';
 import Save from './Save';
 import Subscribe from './Subscribe';
+import CommentArea from './CommentArea';
 
 const StyledTitle = styled.h1`
   margin-left: 10px;
@@ -52,6 +54,8 @@ export default function VideoPlay() {
   const location = useLocation();
   const videoId = location.pathname.slice(7);
 
+  const isVideoAuthor = user?._id === info?.user?._id;
+
   useEffect(() => {
     getVideoPlayInfo(videoId).then((res: any) => {
       setInfo(res);
@@ -79,12 +83,12 @@ export default function VideoPlay() {
 
   return (
     <>
-      {config?.source && info && operation ? (
+      {config?.source && info ? (
         <>
           {handlePlayer(config)}
           <StyledTitle>{info?.title}</StyledTitle>
           <OperatorWrappr>
-            <LeftWrapper>
+            <LeftWrapper style={{ flex: isVideoAuthor ? '1' : '0.99' }}>
               <div>
                 <CardHeader
                   avatar={
@@ -107,6 +111,7 @@ export default function VideoPlay() {
                 user={user}
                 likeCount={+info?.likeCount}
                 dislikeCount={+info?.dislikeCount}
+                isVideoAuthor={isVideoAuthor}
               />
             </LeftWrapper>
             <RightWrapper
@@ -117,14 +122,21 @@ export default function VideoPlay() {
                 justifyContent: 'space-between',
               }}
             >
-              <Save saveStatus={operation?.save} />
+              <Save
+                user={user}
+                saveStatus={operation?.save}
+                isVideoAuthor={isVideoAuthor}
+              />
               <Subscribe
                 initStatus={operation?.subscribe}
-                channelId={info?.user._id}
+                channelId={info?.user?._id}
                 user={user}
+                isVideoAuthor={isVideoAuthor}
               />
             </RightWrapper>
           </OperatorWrappr>
+          <Divider style={{ margin: '10px 0' }} sx={{ borderBottomWidth: 2 }} />
+          <CommentArea user={user} videoId={videoId} />
         </>
       ) : (
         <CircularProgress style={{ display: 'block', margin: '20px auto' }} />

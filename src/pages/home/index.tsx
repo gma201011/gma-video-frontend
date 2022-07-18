@@ -4,9 +4,9 @@ import { getVideoCardInfo } from '../../webApi';
 import { NoStyleLink } from '../../components/StyleLink/NoStyleLink';
 import styled from 'styled-components';
 import CircularProgress from '@mui/material/CircularProgress';
+import moment from 'moment';
 
 const Wrapper = styled.div`
-  max-width: 1440px;
   display: flex;
   margin-bottom: 50px;
   flex-wrap: wrap;
@@ -31,7 +31,6 @@ export default function HomePage() {
 
   function handleVideoCardRender(info: any) {
     return info?.map((item: any, index: any) => {
-      console.log(index, item);
       return (
         <NoStyleLink to={`/video/${item._id}`}>
           <VideoCard
@@ -39,7 +38,7 @@ export default function HomePage() {
             videoTitle={item.title}
             userAvatar={item.user.username[0]}
             userName={item.user.username}
-            createTime={item.createAt}
+            createTime={moment(item.createAt).format('YYYY-MM-DD')}
           />
         </NoStyleLink>
       );
@@ -48,14 +47,12 @@ export default function HomePage() {
 
   function handleCardTemplateRender(info: any) {
     if (info.length % 3 === 1) {
-      console.log(2);
       return (
         <>
           <CardTemplate /> <CardTemplate />
         </>
       );
     } else if (info.length % 3 === 2) {
-      console.log(1);
       return <CardTemplate />;
     }
   }

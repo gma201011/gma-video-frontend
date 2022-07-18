@@ -10,10 +10,11 @@ interface IProps {
   dislikeCount: number;
   user: unknown;
   likeStatus: number;
+  isVideoAuthor: boolean;
 }
 
 export default function LikeButtons(props: IProps) {
-  const { likeCount, dislikeCount, user, likeStatus } = props;
+  const { likeCount, dislikeCount, user, likeStatus, isVideoAuthor } = props;
   const [like, setLike] = useState(false);
   const [dislike, setDislike] = useState(false);
   const [likeNumber, setLikeNumber] = useState(likeCount);

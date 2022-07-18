@@ -130,3 +130,20 @@ export const unsubscribe = async (channelId: string) => {
     }
   }).then(res => res).catch((error) => error);
 }
+
+export const getVideoCommentList = async (VideoId: string) => {
+  return await axios.get(`${BASE_URL}/video/commentlist/${VideoId}`)
+    .then(res => res.data).catch((error) => error);
+}
+
+export const postVideoComment = async (VideoId: string, content: string) => {
+  const token = localStorage.getItem('token');
+  return await axios.post(`${BASE_URL}/video/comment/${VideoId}`, {
+    'content': content
+  },   {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  })
+    .then(res => res.data).catch((error) => error);
+}

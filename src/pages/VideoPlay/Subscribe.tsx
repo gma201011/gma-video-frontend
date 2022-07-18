@@ -6,10 +6,11 @@ interface IProps {
   initStatus: boolean;
   channelId: string;
   user: any;
+  isVideoAuthor: boolean;
 }
 
 export default function Subscribe(props: IProps) {
-  const { initStatus, channelId, user } = props;
+  const { initStatus, channelId, user, isVideoAuthor } = props;
   const [subscribeStatus, setSubscribeStatus] = useState(false);
 
   useEffect(() => {
@@ -30,13 +31,17 @@ export default function Subscribe(props: IProps) {
   };
 
   return (
-    <Button
-      onClick={handleSubscribeButtonOnClick}
-      variant='contained'
-      color={subscribeStatus ? 'primary' : 'error'}
-      style={{ background: subscribeStatus ? 'gray' : '' }}
-    >
-      {subscribeStatus ? 'Unsubscribe' : 'Subscribe'}
-    </Button>
+    <>
+      {!isVideoAuthor && (
+        <Button
+          onClick={handleSubscribeButtonOnClick}
+          variant='contained'
+          color={subscribeStatus ? 'primary' : 'error'}
+          style={{ background: subscribeStatus ? 'gray' : '' }}
+        >
+          {subscribeStatus ? 'Unsubscribe' : 'Subscribe'}
+        </Button>
+      )}
+    </>
   );
 }

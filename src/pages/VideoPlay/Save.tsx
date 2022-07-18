@@ -6,10 +6,12 @@ import { useLocation } from 'react-router-dom';
 
 interface IProps {
   saveStatus: boolean;
+  user: any;
+  isVideoAuthor: boolean;
 }
 
 export default function Save(props: IProps) {
-  const { saveStatus } = props;
+  const { saveStatus, user, isVideoAuthor } = props;
   const [save, setSave] = useState(false);
 
   const location = useLocation();
@@ -22,18 +24,23 @@ export default function Save(props: IProps) {
   }, []);
 
   const handleSaveButtonClick = () => {
+    if (!user) return;
     videoSave(videoId);
     setSave(!save);
   };
   return (
     <>
-      <Button
-        onClick={handleSaveButtonClick}
-        style={{ color: save ? '' : 'gray', marginRight: '20px' }}
-      >
-        <LibraryAddIcon style={{ verticalAlign: 'bottom' }} />
-        save
-      </Button>
+      {!isVideoAuthor && (
+        <>
+          <Button
+            onClick={handleSaveButtonClick}
+            style={{ color: save ? '' : 'gray', marginRight: '20px' }}
+          >
+            <LibraryAddIcon style={{ verticalAlign: 'bottom' }} />
+            save
+          </Button>
+        </>
+      )}
     </>
   );
 }
