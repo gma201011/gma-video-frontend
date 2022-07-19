@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import LoginAlert from './LoginAlert';
 import { videoSave } from '../../webApi';
 import { useLocation } from 'react-router-dom';
 
@@ -13,9 +14,15 @@ interface IProps {
 export default function Save(props: IProps) {
   const { saveStatus, user, isVideoAuthor } = props;
   const [save, setSave] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   const location = useLocation();
   const videoId = location.pathname.slice(7);
+
+  const alertMessage = {
+    title: 'Want to save the video?',
+    content: 'Sign in to save the video.',
+  };
 
   useEffect(() => {
     if (saveStatus) {
@@ -24,7 +31,7 @@ export default function Save(props: IProps) {
   }, []);
 
   const handleSaveButtonClick = () => {
-    if (!user) return;
+    if (!user) return setAlert(true);
     videoSave(videoId);
     setSave(!save);
   };
@@ -39,6 +46,11 @@ export default function Save(props: IProps) {
             <LibraryAddIcon style={{ verticalAlign: 'bottom' }} />
             save
           </Button>
+          <LoginAlert
+            alert={alert}
+            setAlert={setAlert}
+            alertMessage={alertMessage}
+          />
         </>
       )}
     </>

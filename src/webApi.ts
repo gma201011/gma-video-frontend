@@ -147,3 +147,12 @@ export const postVideoComment = async (VideoId: string, content: string) => {
   })
     .then(res => res.data).catch((error) => error);
 }
+
+export const getSubscribeChannel = async (userId: string) => {
+  const token = localStorage.getItem('token');
+  return await axios.get(`${BASE_URL}/user/getsubscribe/${userId}`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).then(res => res.data.subscribeList).catch((error) => error);
+}

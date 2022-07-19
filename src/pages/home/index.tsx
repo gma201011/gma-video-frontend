@@ -30,9 +30,9 @@ export default function HomePage() {
   }, [videoInfo]);
 
   function handleVideoCardRender(info: any) {
-    return info?.map((item: any, index: any) => {
+    return info?.map((item: any) => {
       return (
-        <NoStyleLink to={`/video/${item._id}`}>
+        <NoStyleLink key={item._id} to={`/video/${item._id}`}>
           <VideoCard
             videoCover={item.coverURL}
             videoTitle={item.title}

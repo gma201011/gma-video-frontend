@@ -3,6 +3,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import LoginAlert from './LoginAlert';
 import { videoLike, videoDislike } from '../../webApi';
 import { useLocation } from 'react-router-dom';
 interface IProps {
@@ -19,9 +20,15 @@ export default function LikeButtons(props: IProps) {
   const [dislike, setDislike] = useState(false);
   const [likeNumber, setLikeNumber] = useState(likeCount);
   const [dislikeNumber, setDislikeNumber] = useState(dislikeCount);
+  const [alert, setAlert] = useState(false);
 
   const location = useLocation();
   const videoId = location.pathname.slice(7);
+
+  const alertMessage = {
+    title: 'Like this video?',
+    content: 'Sign in to make your opinion count.',
+  };
 
   useEffect(() => {
     if (likeStatus === 1) {
@@ -32,7 +39,7 @@ export default function LikeButtons(props: IProps) {
   }, [likeStatus]);
 
   const handleLikeButton = () => {
-    if (!user) return;
+    if (!user) return setAlert(true);
     videoLike(videoId);
     if (like) {
       setLike(false);
@@ -49,7 +56,7 @@ export default function LikeButtons(props: IProps) {
   };
 
   const handleDislikeButton = () => {
-    if (!user) return;
+    if (!user) return setAlert(true);
     videoDislike(videoId);
     if (like) {
       setDislike(true);
@@ -101,6 +108,11 @@ export default function LikeButtons(props: IProps) {
           </>
         </Button>
       </Typography>
+      <LoginAlert
+        alert={alert}
+        setAlert={setAlert}
+        alertMessage={alertMessage}
+      />
     </div>
   );
 }

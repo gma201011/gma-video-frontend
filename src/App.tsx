@@ -36,7 +36,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/video/:videoId' element={<VideoPlay />} />
-            <Route path='/channel' element={<Channel />} />
+            <Route path='/channel/:channelId' element={<Channel />} />
             <Route path='/like' element={<Like />} />
             <Route path='/subscription' element={<Subscription />} />
             <Route path='/upload' element={<Upload />} />

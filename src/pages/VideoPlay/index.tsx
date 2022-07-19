@@ -50,6 +50,7 @@ export default function VideoPlay() {
     preload: true,
   });
   const [operation, setOperation] = useState<any>(null);
+  const [open, setOpen] = useState(true);
 
   const location = useLocation();
   const videoId = location.pathname.slice(7);
@@ -79,6 +80,10 @@ export default function VideoPlay() {
         </div>
       );
     }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -114,14 +119,7 @@ export default function VideoPlay() {
                 isVideoAuthor={isVideoAuthor}
               />
             </LeftWrapper>
-            <RightWrapper
-              style={{
-                margin: 'auto 0',
-                marginLeft: '10px',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
+            <RightWrapper>
               <Save
                 user={user}
                 saveStatus={operation?.save}
