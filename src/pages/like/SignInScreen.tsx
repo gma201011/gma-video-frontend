@@ -14,8 +14,8 @@ export default function SignInScreen() {
     <>
       <StyledWrapper>
         <SubscriptionsIcon style={{ width: '20vw', height: '15vh' }} />
-        <h2>Don’t miss new videos</h2>
-        <h4>Sign in to see updates from your favorite YouTube channels</h4>
+        <h2>Keep track of what you watch</h2>
+        <h4>Sign in to see your favorite videos</h4>
         <NoStyleLink to={'/login'}>
           <Button variant='outlined'>
             <AccountCircleIcon /> &nbsp; Sign in

@@ -14,7 +14,15 @@ export const getVideoList = async () => {
 
 export const getVideoInfo = async (videoId: string) => {
   try {
-    return await axios.get(`${BASE_URL}/video/getvideolink/${videoId}`).then((res: any) => {return res.data.response.VideoBase})
+    return await axios.get(`${BASE_URL}/video/video/${videoId}`).then((res: any) => {return res.data.response})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getChannel =  async (userId: string) => {
+  try {
+    return await axios.get(`${BASE_URL}/user/getuser/${userId}`).then((res: any) => {return res.data.response})
   } catch (error) {
     console.log(error);
   }
@@ -155,4 +163,40 @@ export const getSubscribeChannel = async (userId: string) => {
       'authorization': `Bearer ${token}`
     }
   }).then(res => res.data.subscribeList).catch((error) => error);
+}
+
+export const getLikeVideoList = async () => {
+  const token = localStorage.getItem('token');
+  const likeVideoInfo =  await axios.get(`${BASE_URL}/video/likelist`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).then(res => { return res.data.likeInfo }).catch((error) => error);
+
+  for (let i = 0;i < likeVideoInfo.length; i++) {
+    const videoAuthor =  await axios
+      .get(`${BASE_URL}/user/getuser/${likeVideoInfo[i].video.user}`)
+      .then((res: any) => {return res.data.username})
+      .catch((error) => console.log(error));
+    likeVideoInfo[i].video.username = videoAuthor;
+  }
+
+  const likeVideoIdList = likeVideoInfo.map((info: any) => info.video._id);
+  let urlList = [];
+
+  for (let i = 0; i < likeVideoIdList.length; i++) {
+    const url = (
+      await axios
+        .get(`${BASE_URL}/video/getvideolink/${likeVideoIdList[i]}`)
+        .then((res: any) => {return res.data.response.VideoBase.CoverURL})
+        .catch((error) => console.log(error))
+    );
+    urlList.push(url);
+  }
+
+  for (let i = 0; i < urlList.length; i++) {
+    likeVideoInfo[i].coverURL = urlList[i]
+  }
+
+  return likeVideoInfo;
 }
