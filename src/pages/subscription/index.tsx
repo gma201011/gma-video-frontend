@@ -20,6 +20,7 @@ import { red } from '@mui/material/colors';
 import moment from 'moment';
 import { getSubscribeChannel } from '../../webApi';
 import UnsubscribeDialog from './UnsubscribeDialog';
+import SignInScreen from './SignInScreen';
 
 interface Column {
   id: 'channel' | 'channeldes' | 'subscribeCount' | 'createAt';
@@ -66,109 +67,113 @@ export default function Subscription() {
   return (
     <>
       <h2 style={{ marginLeft: '30px' }}>Subscription</h2>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableContainer>
-          <Table stickyHeader aria-label='sticky table'>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id} style={{ width: column.width }}>
-                    <Typography style={{ fontWeight: 600 }}>
-                      {column.label}
-                    </Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            {!subscribeList ? (
-              <div
-                style={{
-                  margin: '50px 0',
-                  position: 'absolute',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                }}
-              >
-                <CircularProgress />
-              </div>
-            ) : (
-              <TableBody>
-                {subscribeList.map((item: any, index: number) => {
-                  return (
-                    <TableRow
-                      key={item._id}
-                      hover
-                      role='checkbox'
-                      tabIndex={-1}
-                    >
-                      <TableCell>
-                        <CardHeader
-                          style={{ padding: '16px 0' }}
-                          avatar={
-                            <Avatar
-                              sx={{ bgcolor: red[500] }}
-                              aria-label='recipe'
-                            >
-                              {item.username[0]}
-                            </Avatar>
-                          }
-                          title={
-                            <Typography
-                              noWrap
-                              variant='body2'
-                              color='text.secondary'
-                            >
-                              {item.username}
-                            </Typography>
-                          }
+      {!user ? (
+        <SignInScreen />
+      ) : (
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+          <TableContainer>
+            <Table stickyHeader aria-label='sticky table'>
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell key={column.id} style={{ width: column.width }}>
+                      <Typography style={{ fontWeight: 600 }}>
+                        {column.label}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              {!subscribeList ? (
+                <div
+                  style={{
+                    margin: '50px 0',
+                    position: 'absolute',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                  }}
+                >
+                  <CircularProgress />
+                </div>
+              ) : (
+                <TableBody>
+                  {subscribeList.map((item: any, index: number) => {
+                    return (
+                      <TableRow
+                        key={item._id}
+                        hover
+                        role='checkbox'
+                        tabIndex={-1}
+                      >
+                        <TableCell>
+                          <CardHeader
+                            style={{ padding: '16px 0' }}
+                            avatar={
+                              <Avatar
+                                sx={{ bgcolor: red[500] }}
+                                aria-label='recipe'
+                              >
+                                {item.username[0]}
+                              </Avatar>
+                            }
+                            title={
+                              <Typography
+                                noWrap
+                                variant='body2'
+                                color='text.secondary'
+                              >
+                                {item.username}
+                              </Typography>
+                            }
+                          />
+                        </TableCell>
+                        <TableCell>{item.subscribeCount}</TableCell>
+                        <TableCell>
+                          {moment(item.createAt).format('YYYY-MM-DD')}
+                        </TableCell>
+                        <TableCell>{item.channeldes}</TableCell>
+                        <TableCell>
+                          <NoStyleLink
+                            to={`/channel/${item._id}`}
+                            target='_blank'
+                          >
+                            <Tooltip title='Visit the channel'>
+                              <LaunchIcon />
+                            </Tooltip>
+                          </NoStyleLink>
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            onClick={() =>
+                              handleUnsubscribeButtonOnClick(
+                                item._id,
+                                item.username
+                              )
+                            }
+                            style={{ color: 'gray' }}
+                          >
+                            <Tooltip title='Unsubscribe'>
+                              <UnsubscribeIcon />
+                            </Tooltip>
+                          </Button>
+                        </TableCell>
+                        <UnsubscribeDialog
+                          dialogOpen={dialogOpen}
+                          setDialogOpen={setDialogOpen}
+                          channelName={dialogChannelName}
+                          channelId={dialogChannelId}
+                          subscribeList={subscribeList}
+                          setSubscribeList={setSubscribeList}
                         />
-                      </TableCell>
-                      <TableCell>{item.subscribeCount}</TableCell>
-                      <TableCell>
-                        {moment(item.createAt).format('YYYY-MM-DD')}
-                      </TableCell>
-                      <TableCell>{item.channeldes}</TableCell>
-                      <TableCell>
-                        <NoStyleLink
-                          to={`/channel/${item._id}`}
-                          target='_blank'
-                        >
-                          <Tooltip title='Visit the channel'>
-                            <LaunchIcon />
-                          </Tooltip>
-                        </NoStyleLink>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          onClick={() =>
-                            handleUnsubscribeButtonOnClick(
-                              item._id,
-                              item.username
-                            )
-                          }
-                          style={{ color: 'gray' }}
-                        >
-                          <Tooltip title='Unsubscribe'>
-                            <UnsubscribeIcon />
-                          </Tooltip>
-                        </Button>
-                      </TableCell>
-                      <UnsubscribeDialog
-                        dialogOpen={dialogOpen}
-                        setDialogOpen={setDialogOpen}
-                        channelName={dialogChannelName}
-                        channelId={dialogChannelId}
-                        subscribeList={subscribeList}
-                        setSubscribeList={setSubscribeList}
-                      />
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-      </Paper>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
+        </Paper>
+      )}
     </>
   );
 }

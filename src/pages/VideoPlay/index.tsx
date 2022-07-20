@@ -19,7 +19,7 @@ const StyledTitle = styled.h1`
   margin-left: 10px;
 `;
 
-const OperatorWrappr = styled.div`
+const OperatorWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
@@ -92,7 +92,7 @@ export default function VideoPlay() {
         <>
           {handlePlayer(config)}
           <StyledTitle>{info?.title}</StyledTitle>
-          <OperatorWrappr>
+          <OperatorWrapper>
             <LeftWrapper style={{ flex: isVideoAuthor ? '1' : '0.99' }}>
               <div>
                 <CardHeader
@@ -132,7 +132,7 @@ export default function VideoPlay() {
                 isVideoAuthor={isVideoAuthor}
               />
             </RightWrapper>
-          </OperatorWrappr>
+          </OperatorWrapper>
           <Divider style={{ margin: '10px 0' }} sx={{ borderBottomWidth: 2 }} />
           <CommentArea user={user} videoId={videoId} />
         </>
