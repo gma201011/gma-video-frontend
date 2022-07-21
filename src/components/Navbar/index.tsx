@@ -51,7 +51,7 @@ export default function Navbar() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <NavList />
+      <NavList user={user} />
     </Box>
   );
 

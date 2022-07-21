@@ -8,7 +8,7 @@ import Channel from './pages/Channel';
 import Like from './pages/Like';
 import Subscription from './pages/Subscription';
 import Upload from './pages/Upload';
-import Yoursvid from './pages/Yoursvid';
+import Save from './pages/Save';
 import VideoPlay from './pages/VideoPlay';
 import { AuthContext } from './contexts';
 import { auth } from './webApi';
@@ -38,9 +38,9 @@ function App() {
             <Route path='/video/:videoId' element={<VideoPlay />} />
             <Route path='/channel/:channelId' element={<Channel />} />
             <Route path='/like' element={<Like />} />
+            <Route path='/save' element={<Save />} />
             <Route path='/subscription' element={<Subscription />} />
             <Route path='/upload' element={<Upload />} />
-            <Route path='/yoursvid' element={<Yoursvid />} />
           </Routes>
         </BrowserRouter>
       </AuthContext.Provider>

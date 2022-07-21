@@ -200,3 +200,39 @@ export const getLikeVideoList = async () => {
 
   return likeVideoInfo;
 }
+
+export const getSaveVideoList = async () => {
+  const token = localStorage.getItem('token');
+  const saveVideoInfo =  await axios.get(`${BASE_URL}/video/collectlist`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).then(res => { return res.data.collectList }).catch((error) => error);
+
+  for (let i = 0;i < saveVideoInfo.length; i++) {
+    const videoAuthor =  await axios
+      .get(`${BASE_URL}/user/getuser/${saveVideoInfo[i].video.user}`)
+      .then((res: any) => {return res.data.username})
+      .catch((error) => console.log(error));
+      saveVideoInfo[i].video.username = videoAuthor;
+  }
+
+  const saveVideoIdList = saveVideoInfo.map((info: any) => info.video._id);
+  let urlList = [];
+
+  for (let i = 0; i < saveVideoIdList.length; i++) {
+    const url = (
+      await axios
+        .get(`${BASE_URL}/video/getvideolink/${saveVideoIdList[i]}`)
+        .then((res: any) => {return res.data.response.VideoBase.CoverURL})
+        .catch((error) => console.log(error))
+    );
+    urlList.push(url);
+  }
+
+  for (let i = 0; i < urlList.length; i++) {
+    saveVideoInfo[i].coverURL = urlList[i]
+  }
+
+  return saveVideoInfo;
+}
