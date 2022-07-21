@@ -36,7 +36,10 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/video/:videoId' element={<VideoPlay />} />
-            <Route path='/channel/:channelId' element={<Channel />} />
+            <Route
+              path='/channel/:channelId'
+              element={<Channel user={user} />}
+            />
             <Route path='/like' element={<Like />} />
             <Route path='/save' element={<Save />} />
             <Route path='/subscription' element={<Subscription />} />

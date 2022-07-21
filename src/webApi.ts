@@ -22,7 +22,7 @@ export const getVideoInfo = async (videoId: string) => {
 
 export const getChannel =  async (userId: string) => {
   try {
-    return await axios.get(`${BASE_URL}/user/getuser/${userId}`).then((res: any) => {return res.data.response})
+    return await axios.get(`${BASE_URL}/user/getuser/${userId}`).then((res: any) => {return res.data})
   } catch (error) {
     console.log(error);
   }
@@ -139,6 +139,15 @@ export const unsubscribe = async (channelId: string) => {
   }).then(res => res).catch((error) => error);
 }
 
+export const getSubscribe = async (userId: string) => {
+  const token = localStorage.getItem('token');
+  return await axios.get(`${BASE_URL}/user/getsubscribe/${userId}`, {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }).then(res => res.data).catch((error) => error);
+}
+
 export const getVideoCommentList = async (VideoId: string) => {
   return await axios.get(`${BASE_URL}/video/commentlist/${VideoId}`)
     .then(res => res.data).catch((error) => error);
@@ -235,4 +244,28 @@ export const getSaveVideoList = async () => {
   }
 
   return saveVideoInfo;
+}
+
+export const getChannelVideoList = async (userId: string) => {
+  return await axios
+  .get(`${BASE_URL}/user/channelvideolist/${userId}`)
+  .then((res: any) => {return res.data})
+  .catch((error) => console.log(error))
+}
+
+export const getChannelPageInfo = async (userId: string) => {
+  const channelInfo = await getChannel(userId);
+  const channelVideoList = await getChannelVideoList(userId);
+  const videoPlayInfo: any = [];
+
+  for (let i = 0; i < channelVideoList.videoList.length; i++) {
+    await axios
+    .get(`${BASE_URL}/video/getvideolink/${channelVideoList.videoList[i]._id}`)
+    .then((res: any) => {
+      videoPlayInfo[i] = { coverURL: res.data.response.VideoBase.CoverURL, _id: channelVideoList.videoList[i]._id, ...channelVideoList.videoList[i] }
+    })
+    .catch((error) => console.log(error));
+  }
+
+  return {channelInfo, videoPlayInfo};
 }

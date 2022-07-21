@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import { red } from '@mui/material/colors';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getVideoCommentList, postVideoComment } from '../../webApi';
+import { NoStyleLink } from '../../components/StyleLink/NoStyleLink';
 
 interface IProps {
   videoId: string;
@@ -30,8 +31,6 @@ export default function CommentArea(props: IProps) {
       setCommentList(res);
     });
   }, [videoId]);
-
-  useEffect(() => {}, []);
 
   const handleInputValueOnChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -141,9 +140,11 @@ export default function CommentArea(props: IProps) {
                 <React.Fragment key={comment._id}>
                   <ListItem key={comment._id} alignItems='flex-start'>
                     <ListItemAvatar>
-                      <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
-                        {comment.user.username[0]}
-                      </Avatar>
+                      <NoStyleLink to={`/channel/${comment.user._id}`}>
+                        <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
+                          {comment.user.username[0]}
+                        </Avatar>
+                      </NoStyleLink>
                     </ListItemAvatar>
                     <ListItemText
                       primary={<Typography>{comment.user.username}</Typography>}

@@ -75,7 +75,7 @@ export default function Subscription() {
     setDialogChannelName(channelName);
     setDialogChannelId(channelId);
   };
-  console.log(subscribeList);
+
   return (
     <>
       <h2 style={{ marginLeft: '30px' }}>Subscription</h2>
@@ -117,12 +117,17 @@ export default function Subscription() {
                         <CardHeader
                           style={{ padding: '16px 0' }}
                           avatar={
-                            <Avatar
-                              sx={{ bgcolor: red[500] }}
-                              aria-label='recipe'
+                            <NoStyleLink
+                              to={`/channel/${item._id}`}
+                              target='_blank'
                             >
-                              {item.username[0]}
-                            </Avatar>
+                              <Avatar
+                                sx={{ bgcolor: red[500] }}
+                                aria-label='recipe'
+                              >
+                                {item.username[0]}
+                              </Avatar>
+                            </NoStyleLink>
                           }
                           title={
                             <Typography
@@ -140,16 +145,6 @@ export default function Subscription() {
                         {moment(item.createAt).format('YYYY-MM-DD')}
                       </TableCell>
                       <TableCell>{item.channeldes}</TableCell>
-                      <TableCell>
-                        <NoStyleLink
-                          to={`/channel/${item._id}`}
-                          target='_blank'
-                        >
-                          <Tooltip title='Visit the channel'>
-                            <LaunchIcon />
-                          </Tooltip>
-                        </NoStyleLink>
-                      </TableCell>
                       <TableCell>
                         <Button
                           onClick={() =>

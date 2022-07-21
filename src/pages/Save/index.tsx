@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   margin-bottom: 50px;
   flex-wrap: wrap;
   justify-content: space-around;
+  background: #f9f9f9;
 `;
 
 const CardTemplate = styled.div`
@@ -51,7 +52,7 @@ export default function Save() {
         <NoStyleLink key={item.video._id} to={`/video/${item.video._id}`}>
           <VideoCard
             videoCover={item.coverURL}
-            videoTitle={item.title}
+            videoTitle={item.video.title}
             userAvatar={item?.video?.username[0]}
             userName={item.video.username}
             createTime={moment(item.createAt).format('YYYY-MM-DD')}

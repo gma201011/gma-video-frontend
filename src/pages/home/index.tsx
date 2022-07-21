@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   margin-bottom: 50px;
   flex-wrap: wrap;
   justify-content: space-around;
+  background: #f9f9f9;
 `;
 
 const CardTemplate = styled.div`

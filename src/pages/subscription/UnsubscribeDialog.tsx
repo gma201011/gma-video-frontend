@@ -39,8 +39,6 @@ export default function UnsubscribeDialog(props: IProps) {
     setDialogOpen(false);
   };
 
-  console.log(subscribeList);
-
   return (
     <>
       <Dialog

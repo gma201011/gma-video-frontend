@@ -9,6 +9,7 @@ import Divider from '@mui/material/Divider';
 import Player from 'aliplayer-react';
 import { useLocation } from 'react-router-dom';
 import { getVideoPlayInfo, getVideoOperateStatus } from '../../webApi';
+import { NoStyleLink } from '../../components/StyleLink/NoStyleLink';
 import styled from 'styled-components';
 import LikeButtons from './LikeButtons';
 import Save from './Save';
@@ -82,10 +83,6 @@ export default function VideoPlay() {
     }
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <>
       {config?.source && info ? (
@@ -97,9 +94,11 @@ export default function VideoPlay() {
               <div>
                 <CardHeader
                   avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
-                      {info?.user?.username[0]}
-                    </Avatar>
+                    <NoStyleLink to={`/channel/${info?.user._id}`}>
+                      <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
+                        {info?.user?.username[0]}
+                      </Avatar>
+                    </NoStyleLink>
                   }
                   title={
                     <Typography noWrap variant='body2' color='text.secondary'>
