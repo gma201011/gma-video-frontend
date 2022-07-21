@@ -101,7 +101,7 @@ export default function Channel(props: any) {
               subheader={`${Info.channelInfo.subscribeCount} subscribers`}
             />
             <div>
-              {user._id !== channelId && (
+              {user && user?._id !== channelId && (
                 <Button
                   onClick={(e) => handleSubscribeButtonOnClick(channelId)}
                   variant='contained'
