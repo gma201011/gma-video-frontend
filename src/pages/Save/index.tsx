@@ -54,13 +54,13 @@ export default function Save() {
     if (!info) return;
     return info?.map((item: any) => {
       return (
-        <NoStyleLink key={item.video._id} to={`/video/${item.video._id}`}>
+        <NoStyleLink key={item?.video._id} to={`/video/${item?.video._id}`}>
           <VideoCard
-            videoCover={item.coverURL}
-            videoTitle={item.video.title}
+            videoCover={item?.coverURL}
+            videoTitle={item?.video?.title}
             userAvatar={item?.video?.username[0]}
-            userName={item.video.username}
-            createTime={moment(item.createAt).format('YYYY-MM-DD')}
+            userName={item?.video?.username}
+            createTime={moment(item?.createAt).format('YYYY-MM-DD')}
           />
         </NoStyleLink>
       );

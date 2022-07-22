@@ -116,10 +116,10 @@ export default function Subscription() {
                             </TableRow>
                           </TableHead>
                           <TableBody>
-                            {subscribeList.map((item: any, index: number) => {
+                            {subscribeList?.map((item: any) => {
                               return (
                                 <TableRow
-                                  key={item._id}
+                                  key={item?._id}
                                   hover
                                   role='checkbox'
                                   tabIndex={-1}
@@ -136,7 +136,7 @@ export default function Subscription() {
                                             sx={{ bgcolor: red[500] }}
                                             aria-label='recipe'
                                           >
-                                            {item.username[0]}
+                                            {item?.username[0]}
                                           </Avatar>
                                         </NoStyleLink>
                                       }
@@ -146,22 +146,24 @@ export default function Subscription() {
                                           variant='body2'
                                           color='text.secondary'
                                         >
-                                          {item.username}
+                                          {item?.username}
                                         </Typography>
                                       }
                                     />
                                   </TableCell>
-                                  <TableCell>{item.subscribeCount}</TableCell>
+                                  <TableCell>{item?.subscribeCount}</TableCell>
                                   <TableCell>
-                                    {moment(item.createAt).format('YYYY-MM-DD')}
+                                    {moment(item?.createAt).format(
+                                      'YYYY-MM-DD'
+                                    )}
                                   </TableCell>
-                                  <TableCell>{item.channeldes}</TableCell>
+                                  <TableCell>{item?.channeldes}</TableCell>
                                   <TableCell>
                                     <Button
                                       onClick={() =>
                                         handleUnsubscribeButtonOnClick(
-                                          item._id,
-                                          item.username
+                                          item?._id,
+                                          item?.username
                                         )
                                       }
                                       style={{ color: 'gray' }}
