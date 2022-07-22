@@ -7,6 +7,7 @@ import { NoStyleLink } from '../../components/StyleLink/NoStyleLink';
 import { getSaveVideoList } from '../../webApi';
 import styled from 'styled-components';
 import moment from 'moment';
+import NoSaveScreen from './NoSaveScreen';
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,15 +35,19 @@ export default function Save() {
 
   useEffect(() => {
     if (!user) return;
+    setPosting(true);
     getSaveVideoList().then((res) => {
       setLikeVideoInfo(res);
+      setPosting(false);
     });
   }, [user]);
 
   useEffect(() => {
+    if (likeVideoInfo) return;
+    setPosting(true);
     setTimeout(() => {
       setPosting(false);
-    }, 200);
+    }, 1000);
   }, []);
 
   function handleVideoCardRender(info: any) {
@@ -77,21 +82,29 @@ export default function Save() {
   return (
     <>
       <h2 style={{ marginLeft: '30px' }}>Saved Videos</h2>
-      {!likeVideoInfo ? (
+      {posting ? (
+        <CircularProgress style={{ display: 'block', margin: '10vh auto' }} />
+      ) : (
         <>
-          {!posting && !user ? (
+          {!user ? (
             <SignInScreen message={signInScreenMessage} />
           ) : (
-            <CircularProgress
-              style={{ display: 'block', margin: '10vh auto' }}
-            />
+            <>
+              {likeVideoInfo && (
+                <>
+                  {!likeVideoInfo.length ? (
+                    <NoSaveScreen />
+                  ) : (
+                    <Wrapper>
+                      {handleVideoCardRender(likeVideoInfo)}
+                      {handleCardTemplateRender(likeVideoInfo)}
+                    </Wrapper>
+                  )}
+                </>
+              )}
+            </>
           )}
         </>
-      ) : (
-        <Wrapper>
-          {handleVideoCardRender(likeVideoInfo)}
-          {handleCardTemplateRender(likeVideoInfo)}
-        </Wrapper>
       )}
     </>
   );
