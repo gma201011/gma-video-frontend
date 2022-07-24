@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,8 +9,8 @@ import Button from '@mui/material/Button';
 import NavList from './NavList';
 import styled from 'styled-components';
 import { NoStyleLink } from '../StyleLink/NoStyleLink';
-import { AuthContext } from '../../contexts';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { IContext } from '../../contexts';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
@@ -19,8 +19,8 @@ const TitleLink = styled(NoStyleLink)`
   display: block;
 `;
 
-export default function Navbar() {
-  const { user, setUser } = useContext(AuthContext);
+export default function Navbar(props: IContext) {
+  const { user, setUser } = props;
   const [state, setState] = useState({
     top: false,
     left: false,

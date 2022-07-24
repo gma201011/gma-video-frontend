@@ -1,5 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
-import { AuthContext } from '../../contexts';
+import { useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import VideoCard from '../../components/VideoCard';
 import SignInScreen from '../../components/SignInScreen';
@@ -21,8 +20,8 @@ const CardTemplate = styled.div`
   margin-top: 25px;
 `;
 
-export default function Like() {
-  const { user } = useContext(AuthContext);
+export default function Like(props: any) {
+  const { user } = props;
   const [likeVideoInfo, setLikeVideoInfo] = useState<any>(null);
   const [posting, setPosting] = useState(true);
 

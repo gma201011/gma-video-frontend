@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 export const URL = 'http://localhost:8080';
 
@@ -6,7 +6,7 @@ export const BASE_URL = 'http://localhost:8080/api/v1';
 
 export const getVideoList = async () => {
   try {
-    return await axios.get(`${BASE_URL}/video/videolist`).then((res: any) => res.data.videoList);
+    return await axios.get(`${BASE_URL}/video/videolist`).then((res: AxiosResponse) => res.data.videoList);
   } catch (error) {
     console.log(error);
   }
@@ -14,7 +14,7 @@ export const getVideoList = async () => {
 
 export const getVideoInfo = async (videoId: string) => {
   try {
-    return await axios.get(`${BASE_URL}/video/video/${videoId}`).then((res: any) => {return res.data.response})
+    return await axios.get(`${BASE_URL}/video/video/${videoId}`).then((res: AxiosResponse) => {return res.data.response})
   } catch (error) {
     console.log(error);
   }
@@ -22,7 +22,7 @@ export const getVideoInfo = async (videoId: string) => {
 
 export const getChannel =  async (userId: string) => {
   try {
-    return await axios.get(`${BASE_URL}/user/getuser/${userId}`).then((res: any) => {return res.data})
+    return await axios.get(`${BASE_URL}/user/getuser/${userId}`).then((res: AxiosResponse) => {return res.data})
   } catch (error) {
     console.log(error);
   }
@@ -32,7 +32,7 @@ export const getVideoCardInfo = async () => {
   const infoList = (
     await axios
       .get(`${BASE_URL}/video/videolist`)
-      .then((res: any) => res.data.videoList)
+      .then((res: AxiosResponse) => res.data.videoList)
       .catch((error) => console.log(error))
   );
   const idList = infoList.map((info: any) => info._id);
@@ -42,7 +42,7 @@ export const getVideoCardInfo = async () => {
     const url = (
       await axios
         .get(`${BASE_URL}/video/getvideolink/${idList[i]}`)
-        .then((res: any) => {return res.data.response.VideoBase.CoverURL})
+        .then((res: AxiosResponse) => {return res.data.response.VideoBase.CoverURL})
         .catch((error) => console.log(error))
     );
     urlList.push(url);
@@ -58,19 +58,19 @@ export const getVideoCardInfo = async () => {
 export const getVideoPlayInfo = async (videoId: string) => {
   const link = await axios
     .get(`${BASE_URL}/video/getvideolink/${videoId}`)
-    .then((res: any) => {return res.data.response.PlayInfoList.PlayInfo[0].PlayURL})
+    .then((res: AxiosResponse) => {return res.data.response.PlayInfoList.PlayInfo[0].PlayURL})
     .catch((error) => console.log(error));
 
   const videoInfo = await axios
     .get(`${BASE_URL}/video/video/${videoId}`)
-    .then((res: any) => res.data)
+    .then((res: AxiosResponse) => res.data)
     .catch((error) => console.log(error));
 
   videoInfo.playURL = link;
   return videoInfo;
 }
 
-export const login = async (email: any, password: any) => {
+export const login = async (email: string, password: string) => {
   return await axios.post(`${BASE_URL}/user/logins`, {
     email, password
   }).then((response) => {return response.data})
@@ -185,19 +185,22 @@ export const getLikeVideoList = async () => {
   for (let i = 0;i < likeVideoInfo.length; i++) {
     const videoAuthor =  await axios
       .get(`${BASE_URL}/user/getuser/${likeVideoInfo[i].video.user}`)
-      .then((res: any) => {return res.data.username})
+      .then((res: AxiosResponse) => {return res.data.username})
       .catch((error) => console.log(error));
     likeVideoInfo[i].video.username = videoAuthor;
   }
 
-  const likeVideoIdList = likeVideoInfo.map((info: any) => info.video._id);
+  const likeVideoIdList = likeVideoInfo.map((info: any) => {
+    console.log('111111', info);
+    return info.video._id;
+  });
   let urlList = [];
 
   for (let i = 0; i < likeVideoIdList.length; i++) {
     const url = (
       await axios
         .get(`${BASE_URL}/video/getvideolink/${likeVideoIdList[i]}`)
-        .then((res: any) => {return res.data.response.VideoBase.CoverURL})
+        .then((res: AxiosResponse) => {return res.data.response.VideoBase.CoverURL})
         .catch((error) => console.log(error))
     );
     urlList.push(url);

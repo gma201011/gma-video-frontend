@@ -1,5 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
-import { AuthContext } from '../../contexts';
+import { useEffect, useState } from 'react';
 import { NoStyleLink } from '../../components/StyleLink/NoStyleLink';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -43,8 +42,8 @@ const columns: readonly Column[] = [
   { id: 'channeldes', label: 'Description', width: '40%' },
 ];
 
-export default function Subscription() {
-  const { user } = useContext(AuthContext);
+export default function Subscription(props: any) {
+  const { user } = props;
   const [subscribeList, setSubscribeList] = useState<any>(null);
   const [posting, setPosting] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);

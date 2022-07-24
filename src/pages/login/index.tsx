@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,14 +15,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'animate.css';
 import { login } from '../../webApi';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../contexts';
 
 const theme = createTheme();
 
-export default function LoginPage() {
+export default function LoginPage(props: any) {
+  const { setUser } = props;
   const [alert, setAlert] = useState(false);
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
 
   useEffect(() => {
     if (alert) {
@@ -35,8 +34,8 @@ export default function LoginPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get('email');
-    const password = data.get('password');
+    const email = data.get('email') as string;
+    const password = data.get('password') as string;
     login(email, password).then((res: any) => {
       if (res?.response?.status > 400) return setAlert(true);
       const token = res.token;

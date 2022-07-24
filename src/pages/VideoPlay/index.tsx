@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../../contexts';
+import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
@@ -39,8 +38,8 @@ const RightWrapper = styled.div`
   justify-content: space-between;
 `;
 
-export default function VideoPlay() {
-  const { user } = useContext(AuthContext);
+export default function VideoPlay(props: any) {
+  const { user } = props;
   const [info, setInfo] = useState<any>('');
   const [config, setConfig] = useState<any>({
     height: '80vh',

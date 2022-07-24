@@ -31,18 +31,21 @@ function App() {
     <>
       <AuthContext.Provider value={{ user, setUser }}>
         <BrowserRouter>
-          <Navbar />
+          <Navbar user={user} setUser={setUser} />
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/video/:videoId' element={<VideoPlay />} />
+            <Route path='/login' element={<Login setUser={setUser} />} />
+            <Route path='/video/:videoId' element={<VideoPlay user={user} />} />
             <Route
               path='/channel/:channelId'
               element={<Channel user={user} />}
             />
-            <Route path='/like' element={<Like />} />
-            <Route path='/save' element={<Save />} />
-            <Route path='/subscription' element={<Subscription />} />
+            <Route path='/like' element={<Like user={user} />} />
+            <Route path='/save' element={<Save user={user} />} />
+            <Route
+              path='/subscription'
+              element={<Subscription user={user} />}
+            />
             <Route path='/upload' element={<Upload />} />
           </Routes>
         </BrowserRouter>
