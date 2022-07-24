@@ -6,7 +6,7 @@ import LoginAlert from './LoginAlert';
 interface IProps {
   initStatus: boolean;
   channelId: string;
-  user: any;
+  user: null | Object;
   isVideoAuthor: boolean;
 }
 
