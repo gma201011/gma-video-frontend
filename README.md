@@ -6,14 +6,6 @@ It's a simple video streaming platform that allow user to watch videos and commu
 
 **Backend repository：https://github.com/gma201011/gma-video-backend**
 
-### Demo
-
-Demo Link：https://gmademo.com/
-
-Test account：admin@gmail.com
-
-password：admin
-
 ***
 
 ### Tools
